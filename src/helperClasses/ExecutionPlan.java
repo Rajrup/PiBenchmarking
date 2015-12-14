@@ -8,7 +8,7 @@ public class ExecutionPlan {
 	                "define stream cseEventStream (height int); " +
 	                "" +
 	                "@info(name = 'query1') " +
-	                "from cseEventStream[height < 300] " +
+	                "from cseEventStream[height < 300 and height > 0 and height!= 7] " +
 	                "select height " +
 	                "insert into outputStream ;";
 		} else if (planType.equals("LenAggAvg")) {

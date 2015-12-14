@@ -27,6 +27,12 @@ public class DriverClass {
 	public static void main(String[] args) {
 		// initialise the file path here 
 		Log.info("experiment started");
+		Long startTime = System.currentTimeMillis();
+		for (int i = 0;i<1000000;i++) {
+			
+		}
+		Long var = 1000000/(System.currentTimeMillis() - startTime);
+		System.out.println(var*1000);
 		queryType = args[0];		
 		DriverClass dc = new DriverClass();
 		Boolean val =dc.initiateExecutionPlan();
@@ -81,11 +87,20 @@ public class DriverClass {
 	
 	public void sendDatatoSiddhi()  {	
 		Long curentTime = System.currentTimeMillis()/1000;
-		while(curentTime+30 > System.currentTimeMillis()/1000)  {
+		Long key = curentTime; 
+		Object[] obj = {Integer.parseInt("2")};
+		while(curentTime+30 > key)  {
 			try {
-				inputHandler.send(new Object[]{Integer.parseInt("2")});
-				inputHandler.send(new Object[]{Integer.parseInt("2000")});
-				hashMapupdate();
+				inputHandler.send(obj);
+//				hashMapupdate();
+				key = Long.valueOf(System.currentTimeMillis()/1000);
+				if(inputHashMap.containsKey(key)) {
+					Integer tempInt = inputHashMap.get(key);
+					inputHashMap.put(key, tempInt+1);
+				}
+				else {
+					inputHashMap.put(Long.valueOf(System.currentTimeMillis()/1000), Integer.valueOf(1));
+				}
 				
 			} catch (InterruptedException ie) {
 				System.out.println("could not send to Siddhi");
