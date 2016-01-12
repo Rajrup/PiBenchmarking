@@ -27,12 +27,6 @@ public class DriverClass {
 	public static void main(String[] args) {
 		// initialise the file path here 
 		Log.info("experiment started");
-		Long startTime = System.currentTimeMillis();
-		for (int i = 0;i<1000000;i++) {
-			
-		}
-		Long var = 1000000/(System.currentTimeMillis() - startTime);
-		System.out.println(var*1000);
 		queryType = args[0];		
 		DriverClass dc = new DriverClass();
 		Boolean val =dc.initiateExecutionPlan();
@@ -57,22 +51,22 @@ public class DriverClass {
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
-//                EventPrinter.print(inEvents);
+                EventPrinter.print(inEvents);
             	// write the data in outfile 
 //                long ts = inEvents[0].getTimestamp();
 //                int data = inEvents[0].getData();
                 
-                for (Event eve:inEvents) {
-                	Long key = Long.valueOf(System.currentTimeMillis()/1000);
-        			if(outputHashMap.containsKey(key)) {
-        				Integer tempInt = outputHashMap.get(key);
-        				outputHashMap.put(key, tempInt+1);
-        				
-        			}
-        			else {
-        				outputHashMap.put(Long.valueOf(System.currentTimeMillis()/1000), Integer.valueOf(1));
-        			}
-                }
+//                for (Event eve:inEvents) {
+//                	Long key = Long.valueOf(System.currentTimeMillis()/1000);
+//        			if(outputHashMap.containsKey(key)) {
+//        				Integer tempInt = outputHashMap.get(key);
+//        				outputHashMap.put(key, tempInt+1);
+//        				
+//        			}
+//        			else {
+//        				outputHashMap.put(Long.valueOf(System.currentTimeMillis()/1000), Integer.valueOf(1));
+//        			}
+//                }
             }
         });
         inputHandler = executionPlanRuntime.getInputHandler("cseEventStream");
@@ -88,7 +82,28 @@ public class DriverClass {
 	public void sendDatatoSiddhi()  {	
 		Long curentTime = System.currentTimeMillis()/1000;
 		Long key = curentTime; 
-		Object[] obj = {Integer.parseInt("2")};
+		Object[] obj1 = {Integer.parseInt("10")};
+		Object[] obj2 = {Integer.parseInt("5")};
+		for (int i=0;i<10;i++) {
+			try {
+				inputHandler.send(obj1);
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		for (int i=0;i<20;i++) {
+			try {
+				inputHandler.send(obj2);
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		Log.info("DataSet over");
+		/*
 		while(curentTime+30 > key)  {
 			try {
 				inputHandler.send(obj);
@@ -108,7 +123,7 @@ public class DriverClass {
 			} 	
 		}
 		
-		fileWrite();
+		fileWrite(); */
 	}
 	private synchronized void hashMapupdate () {
 		Long key = Long.valueOf(System.currentTimeMillis()/1000);

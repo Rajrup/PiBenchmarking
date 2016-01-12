@@ -25,7 +25,7 @@ public class ExecutionPlan {
     				"define stream cseEventStream (height int); " +
                     "" +
                     "@info(name = 'query1') " +
-                    "from cseEventStream #window.length(5) " + 
+                    "from cseEventStream#window.length(5) " + 
                     "select count(height) as countHeight " + 
                     "insert into outputStream ;";
 		} else if (planType.equals("TimeAgg")) {
@@ -44,7 +44,16 @@ public class ExecutionPlan {
                     "from cseEventStream #window.lengthBatch(5) " + 
                     "select avg(height) as AvgtHeight " + 
                     "insert into outputStream ;";
-		} else if (planType.equals("seq")) {
+		} else if (planType.equals("LenBatCount")) {
+			executionPlan = "" +
+    				"define stream cseEventStream (height int); " +
+                    "" +
+                    "@info(name = 'query1') " +
+                    "from cseEventStream #window.lengthBatch(5) " + 
+                    "select count(height) as countHeight " +
+                    "insert into outputStream ;";
+		}
+		else if (planType.equals("seq")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
