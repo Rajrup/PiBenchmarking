@@ -51,17 +51,17 @@ public class DriverClass {
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
-                EventPrinter.print(inEvents);
-//                for (Event eve:inEvents) {
-//                	Long key = Long.valueOf(System.currentTimeMillis()/1000);
-//        			if(outputHashMap.containsKey(key)) {
-//        				Integer tempInt = outputHashMap.get(key);
-//        				outputHashMap.put(key, tempInt+1);
-//        			}
-//        			else {
-//        				outputHashMap.put(Long.valueOf(System.currentTimeMillis()/1000), Integer.valueOf(1));
-//        			}
-//                }
+//                EventPrinter.print(inEvents);
+                for (Event eve:inEvents) {
+                	Long key = Long.valueOf(System.currentTimeMillis()/1000);
+        			if(outputHashMap.containsKey(key)) {
+        				Integer tempInt = outputHashMap.get(key);
+        				outputHashMap.put(key, tempInt+1);
+        			}
+        			else {
+        				outputHashMap.put(Long.valueOf(System.currentTimeMillis()/1000), Integer.valueOf(1));
+        			}
+                }
             }
         });
         inputHandler = executionPlanRuntime.getInputHandler("cseEventStream");
@@ -77,11 +77,11 @@ public class DriverClass {
 	public void sendDatatoSiddhi()  {	
 		Long curentTime = System.currentTimeMillis()/1000;
 		Long key = curentTime; 
-		
-//		Object[] obj1 = {10};
-//		Object[] obj2 = {5};
-		Object[] obj1 = {Integer.parseInt("10")};
-		Object[] obj2 = {Integer.parseInt("5")};
+		/*
+		Object[] obj1 = {10};
+		Object[] obj2 = {5};
+//		Object[] obj1 = {Integer.parseInt("10")};
+//		Object[] obj2 = {Integer.parseInt("5")};
 		for (int i=0;i<10;i++) {
 			try {
 				inputHandler.send(obj1);
@@ -101,12 +101,12 @@ public class DriverClass {
 			}
 		}
 		Log.info("DataSet over");
-		
+		*/
 //		Object[] obj = {Integer.parseInt("1")};
 //		Object[] obj = {1};
 		
-		/* Object[] obj= new Object[1];
-		int[] objArr = {3,7,9};
+		 Object[] obj= new Object[1];
+		int[] objArr = {2,2,2};
 		int counter = 0;
 		while(curentTime+30 > key)  {
 			if(counter >= 3) {
@@ -116,7 +116,7 @@ public class DriverClass {
 			counter++;
 			try {
 				inputHandler.send(obj);
-				Thread.sleep(1);
+//				Thread.sleep(1);
 //				System.out.println(obj[0]);
 //				hashMapupdate();
 				key = Long.valueOf(System.currentTimeMillis()/1000);
@@ -132,7 +132,7 @@ public class DriverClass {
 				System.out.println("could not send to Siddhi");
 				ie.printStackTrace();
 			} 	
-		} */
+		} 
 		
 		fileWrite();
 	}
