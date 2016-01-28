@@ -2,7 +2,7 @@
   <parent>
         <artifactId>siddhi-samples</artifactId>
         <groupId>org.wso2.siddhi</groupId>
-        <version>3.0.4-SNAPSHOT</version>
+        <version>3.0.5-SNAPSHOT</version>
     </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.shashank.PiBenchmarking</groupId>
@@ -65,19 +65,19 @@
   	<dependency>
             <groupId>org.wso2.siddhi</groupId>
             <artifactId>siddhi-query-api</artifactId>
-            <version>3.0.4-SNAPSHOT</version>
+            <version>3.0.5-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.wso2.siddhi</groupId>
             <artifactId>siddhi-query-compiler</artifactId>
-            <version>3.0.4-SNAPSHOT</version>
+            <version>3.0.5-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.wso2.siddhi</groupId>
             <artifactId>siddhi-core</artifactId>
-            <version>3.0.4-SNAPSHOT</version>
+            <version>3.0.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.log4j.wso2</groupId>
