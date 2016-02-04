@@ -21,7 +21,10 @@ public class DriverClass {
 	HashMap<Long, Integer> inputHashMap = null;
 	HashMap<Long, Integer> outputHashMap = null;
 	public static String queryType = null;
-	private static final boolean SHORT_INPUT = true;
+	private static final int SHORT_CONSTANT_INPUT = 1;
+	private static final int SHORT_VARIED_INPUT = 2;
+	private static final int LONG_INPUT = 3;
+	private static int input_type = 2;
 	public static Logger Log = LoggerFactory.getLogger(DriverClass.class);
 
 	public static void main(String[] args) {
@@ -52,7 +55,7 @@ public class DriverClass {
 		executionPlanRuntime.addCallback("query1", new QueryCallback() {
 			@Override
 			public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
-				if (SHORT_INPUT) {
+				if (input_type == SHORT_CONSTANT_INPUT || input_type == SHORT_VARIED_INPUT) {
 					EventPrinter.print(inEvents);
 					return;
 				}
@@ -80,11 +83,13 @@ public class DriverClass {
 	}
 
 	public void sendDatatoSiddhi() {
-		if (SHORT_INPUT) {
+
+		switch (input_type) {
+		case SHORT_CONSTANT_INPUT: {
 			System.out.println("input thread");
 			System.out.println(Thread.currentThread().getId());
-			Object[] obj1 = { 2 };
-			Object[] obj2 = { 2 };
+			Object[] obj1 = { 10 };
+			Object[] obj2 = { 5 };
 			// Object[] obj1 = {Integer.parseInt("10")};
 			// Object[] obj2 = {Integer.parseInt("5")};
 			for (int i = 0; i < 5; i++) {
@@ -105,41 +110,63 @@ public class DriverClass {
 					e.printStackTrace();
 				}
 			}
-			return;
-
+			break;
 		}
-
-		Long curentTime = System.currentTimeMillis() / 1000;
-		Long key = curentTime;
-		Object[] obj = new Object[1];
-		int[] objArr = { 2, 2, 2 };
-		int counter = 0;
-		while (curentTime + 30 > key) {
-			if (counter >= 3) {
-				counter = 0;
-			}
-			obj[0] = objArr[counter];
-			counter++;
-			try {
-				inputHandler.send(obj);
-				// Thread.sleep(1);
-				// System.out.println(obj[0]);
-				// hashMapupdate();
-				key = Long.valueOf(System.currentTimeMillis() / 1000);
-				if (inputHashMap.containsKey(key)) {
-					Integer tempInt = inputHashMap.get(key);
-					inputHashMap.put(key, tempInt + 1);
-				} else {
-					inputHashMap.put(Long.valueOf(System.currentTimeMillis() / 1000), Integer.valueOf(1));
+		case SHORT_VARIED_INPUT: {
+			int[] objArr = { 8, 8, 8 };
+			int counter = 0;
+			Object[] obj = new Object[1];
+			for (int i = 0;i< 20;i++) {
+				if (counter >=3) {
+					counter =0;
 				}
-				// Thread.sleep(1);
-			} catch (InterruptedException ie) {
-				System.out.println("could not send to Siddhi");
-				ie.printStackTrace();
+				obj[0] = objArr[counter];
+				counter++;
+				try {
+					inputHandler.send(obj);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			break;
+		}
+		case LONG_INPUT: {
+			Long curentTime = System.currentTimeMillis() / 1000;
+			Long key = curentTime;
+			Object[] obj = new Object[1];
+			int[] objArr = { 2, 2, 2 };
+			int counter = 0;
+			while (curentTime + 30 > key) {
+				if (counter >= 3) {
+					counter = 0;
+				}
+				obj[0] = objArr[counter];
+				counter++;
+				try {
+					inputHandler.send(obj);
+					// Thread.sleep(1);
+					// System.out.println(obj[0]);
+					// hashMapupdate();
+					key = Long.valueOf(System.currentTimeMillis() / 1000);
+					if (inputHashMap.containsKey(key)) {
+						Integer tempInt = inputHashMap.get(key);
+						inputHashMap.put(key, tempInt + 1);
+					} else {
+						inputHashMap.put(Long.valueOf(System.currentTimeMillis() / 1000), Integer.valueOf(1));
+					}
+					// Thread.sleep(1);
+				} catch (InterruptedException ie) {
+					System.out.println("could not send to Siddhi");
+					ie.printStackTrace();
+				}
+			}
+
+			fileWrite();
+			break;
+		}
 		}
 
-		fileWrite();
 	}
 
 	private synchronized void hashMapupdate() {
