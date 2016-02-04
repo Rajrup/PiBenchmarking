@@ -2,4 +2,5 @@
 *.class
 PiBe*.jar
 *.csv
+target/
 
