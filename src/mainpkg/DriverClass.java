@@ -21,7 +21,7 @@ public class DriverClass {
 	HashMap<Long, Integer> inputHashMap = null;
 	HashMap<Long, Integer> outputHashMap = null;
 	public static String queryType = null;
-	private static final boolean SHORT_INPUT = false;
+	private static final boolean SHORT_INPUT = true;
 	public static Logger Log = LoggerFactory.getLogger(DriverClass.class);
 
 	public static void main(String[] args) {
@@ -83,8 +83,8 @@ public class DriverClass {
 		if (SHORT_INPUT) {
 			System.out.println("input thread");
 			System.out.println(Thread.currentThread().getId());
-			Object[] obj1 = { 10 };
-			Object[] obj2 = { 5 };
+			Object[] obj1 = { 2 };
+			Object[] obj2 = { 2 };
 			// Object[] obj1 = {Integer.parseInt("10")};
 			// Object[] obj2 = {Integer.parseInt("5")};
 			for (int i = 0; i < 5; i++) {
