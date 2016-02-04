@@ -20,11 +20,13 @@ public class DriverClass {
 	File outFile = null;
 	HashMap<Long, Integer> inputHashMap = null;
 	HashMap<Long, Integer> outputHashMap = null;
+	private final Integer one = Integer.valueOf(1);
 	public static String queryType = null;
 	private static final int SHORT_CONSTANT_INPUT = 1;
 	private static final int SHORT_VARIED_INPUT = 2;
-	private static final int LONG_INPUT = 3;
-	private static int input_type = 2;
+	private static final int LONG_CONSTANT_INPUT = 3;
+	private static final int LONG_VARIED_INPUT = 4;
+	private static int input_type = 3;
 	public static Logger Log = LoggerFactory.getLogger(DriverClass.class);
 
 	public static void main(String[] args) {
@@ -62,11 +64,11 @@ public class DriverClass {
 
 				for (Event eve : inEvents) {
 					Long key = Long.valueOf(System.currentTimeMillis() / 1000);
-					if (outputHashMap.containsKey(key)) {
-						Integer tempInt = outputHashMap.get(key);
+					Integer tempInt = outputHashMap.get(key);
+					if (tempInt != null) {
 						outputHashMap.put(key, tempInt + 1);
 					} else {
-						outputHashMap.put(Long.valueOf(System.currentTimeMillis() / 1000), Integer.valueOf(1));
+						outputHashMap.put(key, one);
 					}
 				}
 			}
@@ -113,12 +115,12 @@ public class DriverClass {
 			break;
 		}
 		case SHORT_VARIED_INPUT: {
-			int[] objArr = { 8, 8, 8 };
+			int[] objArr = { 3, 7, 9 };
 			int counter = 0;
 			Object[] obj = new Object[1];
-			for (int i = 0;i< 20;i++) {
-				if (counter >=3) {
-					counter =0;
+			for (int i = 0; i < 20; i++) {
+				if (counter >= 3) {
+					counter = 0;
 				}
 				obj[0] = objArr[counter];
 				counter++;
@@ -131,12 +133,36 @@ public class DriverClass {
 			}
 			break;
 		}
-		case LONG_INPUT: {
+		case LONG_CONSTANT_INPUT:
 			Long curentTime = System.currentTimeMillis() / 1000;
 			Long key = curentTime;
-			Object[] obj = new Object[1];
+			Object[] obj = { 10 };
+
+			while (curentTime + 30 > key) {
+				try {
+					inputHandler.send(obj);
+					key = Long.valueOf(System.currentTimeMillis() / 1000);
+					Integer tempInt = inputHashMap.get(key);
+					if (tempInt != null) {
+						inputHashMap.put(key, tempInt + 1);
+					} else {
+						inputHashMap.put(key, one);
+					}
+				} catch (InterruptedException ie) {
+					System.out.println("could not send to Siddhi");
+					ie.printStackTrace();
+				}
+			}
+
+			fileWrite();
+			break;
+		case LONG_VARIED_INPUT: {
+			curentTime = System.currentTimeMillis() / 1000;
+			key = curentTime;
+			obj = new Object[1];
 			int[] objArr = { 2, 2, 2 };
 			int counter = 0;
+
 			while (curentTime + 30 > key) {
 				if (counter >= 3) {
 					counter = 0;
@@ -149,11 +175,12 @@ public class DriverClass {
 					// System.out.println(obj[0]);
 					// hashMapupdate();
 					key = Long.valueOf(System.currentTimeMillis() / 1000);
-					if (inputHashMap.containsKey(key)) {
-						Integer tempInt = inputHashMap.get(key);
+
+					Integer tempInt = inputHashMap.get(key);
+					if (tempInt != null) {
 						inputHashMap.put(key, tempInt + 1);
 					} else {
-						inputHashMap.put(Long.valueOf(System.currentTimeMillis() / 1000), Integer.valueOf(1));
+						inputHashMap.put(key, one);
 					}
 					// Thread.sleep(1);
 				} catch (InterruptedException ie) {
