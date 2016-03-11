@@ -26,13 +26,14 @@ public class DriverClass {
 	private static final int SHORT_VARIED_INPUT = 2;
 	private static final int LONG_CONSTANT_INPUT = 3;
 	private static final int LONG_VARIED_INPUT = 4;
-	private static int input_type = 3;
+	private static int input_type;
 	public static Logger Log = LoggerFactory.getLogger(DriverClass.class);
 
 	public static void main(String[] args) {
 		// initialise the file path here
 		Log.info("experiment started");
 		queryType = args[0];
+		input_type = Integer.valueOf(args[1]);
 		DriverClass dc = new DriverClass();
 		Boolean val = dc.initiateExecutionPlan();
 		if (val == true) {
@@ -41,7 +42,6 @@ public class DriverClass {
 		}
 
 	}
-
 	private Boolean initiateExecutionPlan() {
 		SiddhiManager siddhiManager = new SiddhiManager();
 		String executionPlan = ExecutionPlan.returnExecutionPlan(queryType);
@@ -91,7 +91,7 @@ public class DriverClass {
 			System.out.println("input thread");
 			System.out.println(Thread.currentThread().getId());
 			Object[] obj1 = { 10 };
-			Object[] obj2 = { 5 };
+			Object[] obj2 = { 10 };
 			// Object[] obj1 = {Integer.parseInt("10")};
 			// Object[] obj2 = {Integer.parseInt("5")};
 			for (int i = 0; i < 5; i++) {
@@ -115,17 +115,20 @@ public class DriverClass {
 			break;
 		}
 		case SHORT_VARIED_INPUT: {
-			int[] objArr = { 3, 7, 9 };
+			int[] objArr = {3,7,9,11};
 			int counter = 0;
 			Object[] obj = new Object[1];
 			for (int i = 0; i < 20; i++) {
-				if (counter >= 3) {
+				if (counter >= 4) {
 					counter = 0;
 				}
 				obj[0] = objArr[counter];
 				counter++;
 				try {
+					System.out.println("sent obj");
+					System.out.println(obj[0]);
 					inputHandler.send(obj);
+//					Thread.sleep(1);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -160,7 +163,7 @@ public class DriverClass {
 			curentTime = System.currentTimeMillis() / 1000;
 			key = curentTime;
 			obj = new Object[1];
-			int[] objArr = { 2, 2, 2 };
+			int[] objArr = {3,7,9};
 			int counter = 0;
 
 			while (curentTime + 30 > key) {
