@@ -90,11 +90,10 @@ public class DriverClass {
 		case SHORT_CONSTANT_INPUT: {
 			System.out.println("input thread");
 			System.out.println(Thread.currentThread().getId());
-			Object[] obj1 = { 10 };
-			Object[] obj2 = { 10 };
 			// Object[] obj1 = {Integer.parseInt("10")};
 			// Object[] obj2 = {Integer.parseInt("5")};
 			for (int i = 0; i < 5; i++) {
+				Object[] obj1 = { 10 };
 				try {
 					inputHandler.send(obj1);
 					// Thread.sleep(1);
@@ -104,6 +103,7 @@ public class DriverClass {
 				}
 			}
 			for (int i = 0; i < 10; i++) {
+				Object[] obj2 = { 10 };
 				try {
 					inputHandler.send(obj2);
 					// Thread.sleep(1);
@@ -117,11 +117,11 @@ public class DriverClass {
 		case SHORT_VARIED_INPUT: {
 			int[] objArr = {3,7,9,11};
 			int counter = 0;
-			Object[] obj = new Object[1];
 			for (int i = 0; i < 20; i++) {
 				if (counter >= 4) {
 					counter = 0;
 				}
+				Object[] obj = new Object[1];
 				obj[0] = objArr[counter];
 				counter++;
 				try {
@@ -139,10 +139,9 @@ public class DriverClass {
 		case LONG_CONSTANT_INPUT:
 			Long curentTime = System.currentTimeMillis() / 1000;
 			Long key = curentTime;
-			Object[] obj = { 10 };
-
 			while (curentTime + 30 > key) {
 				try {
+					Object[] obj = { 10 };
 					inputHandler.send(obj);
 					key = Long.valueOf(System.currentTimeMillis() / 1000);
 					Integer tempInt = inputHashMap.get(key);
@@ -162,14 +161,13 @@ public class DriverClass {
 		case LONG_VARIED_INPUT: {
 			curentTime = System.currentTimeMillis() / 1000;
 			key = curentTime;
-			obj = new Object[1];
 			int[] objArr = {3,7,9};
 			int counter = 0;
-
 			while (curentTime + 30 > key) {
 				if (counter >= 3) {
 					counter = 0;
 				}
+				Object[] obj = new Object[1];
 				obj[0] = objArr[counter];
 				counter++;
 				try {
