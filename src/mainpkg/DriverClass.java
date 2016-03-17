@@ -26,6 +26,7 @@ public class DriverClass {
 	private static final int SHORT_VARIED_INPUT = 2;
 	private static final int LONG_CONSTANT_INPUT = 3;
 	private static final int LONG_VARIED_INPUT = 4;
+	private static final int SEQ_INPUT = 5;
 	private static int input_type;
 	public static Logger Log = LoggerFactory.getLogger(DriverClass.class);
 
@@ -193,10 +194,47 @@ public class DriverClass {
 			fileWrite();
 			break;
 		}
+		/*
+		 * this is a special input type to test the sequence query
+		 */
+		case SEQ_INPUT: {
+			curentTime = System.currentTimeMillis() / 1000;
+			key = curentTime;
+			int[] objArr = {3,3,9};
+			int counter = 0;
+			while (curentTime + 30 > key) {
+				if (counter >= 3) {
+					counter = 0;
+				}
+				Object[] obj = new Object[1];
+				obj[0] = objArr[counter];
+				counter++;
+				try {
+					inputHandler.send(obj);
+					// Thread.sleep(1);
+					// System.out.println(obj[0]);
+					// hashMapupdate();
+					key = Long.valueOf(System.currentTimeMillis() / 1000);
+
+					Integer tempInt = inputHashMap.get(key);
+					if (tempInt != null) {
+						inputHashMap.put(key, tempInt + 1);
+					} else {
+						inputHashMap.put(key, one);
+					}
+					// Thread.sleep(1);
+				} catch (InterruptedException ie) {
+					System.out.println("could not send to Siddhi");
+					ie.printStackTrace();
+				}
+			}
+
+			fileWrite();
+			break;
+		}
 		}
 
 	}
-
 	private synchronized void hashMapupdate() {
 		Long key = Long.valueOf(System.currentTimeMillis() / 1000);
 		if (inputHashMap.containsKey(key)) {
