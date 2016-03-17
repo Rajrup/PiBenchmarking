@@ -28,14 +28,12 @@ public class DriverClass {
 	private static final String fileName = "outputfile.txt";
 	InputHandler inputHandler = null;
 	File outFile = null;
-	HashMap<Long, Integer> inputHashMap = null;
-	HashMap<Long, Integer> outputHashMap = null;
-	private final Integer one = Integer.valueOf(1);
 	public static String queryType = null;
 	
 	private static int input_type;
 	Long eventsSent;
 	Long eventsReceived;
+	Long minuteCounter;
 	public static Logger Log = LoggerFactory.getLogger(DriverClass.class);
 
 	public static void main(String[] args) {
@@ -46,7 +44,6 @@ public class DriverClass {
 		DriverClass dc = new DriverClass();
 		Boolean val = dc.initiateExecutionPlan();
 		if (val == true) {
-			dc.initiateEventGen();
 			dc.sendDatatoSiddhi();
 		}
 
@@ -66,20 +63,11 @@ public class DriverClass {
 		executionPlanRuntime.addCallback("query1", new QueryCallback() {
 			@Override
 			public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
-				eventsReceived++;
+				changeEventsReceived(false);
+//				System.out.println("receiver thread id: " + Thread.currentThread().getId());
 				if (input_type == SHORT_CONSTANT_INPUT || input_type == SHORT_VARIED_INPUT) {
 					EventPrinter.print(inEvents);
 					return;
-				}
-
-				for (Event eve : inEvents) {
-					Long key = Long.valueOf(System.currentTimeMillis() / 1000);
-					Integer tempInt = outputHashMap.get(key);
-					if (tempInt != null) {
-						outputHashMap.put(key, tempInt + 1);
-					} else {
-						outputHashMap.put(key, one);
-					}
 				}
 			}
 		});
@@ -88,15 +76,20 @@ public class DriverClass {
 		return true;
 
 	}
-
-	private void initiateEventGen() {
-		inputHashMap = new HashMap<Long, Integer>();
-		outputHashMap = new HashMap<Long, Integer>();
+	private synchronized void changeEventsReceived (boolean reset) {
+		if(reset == false) {
+			eventsReceived++;
+			return;
+		}
+		eventsReceived = 0l;
+		
 	}
 
 	public void sendDatatoSiddhi() {
 		eventsSent = 0l;
 		eventsReceived = 0l;
+		minuteCounter = 0l;
+//		System.out.println("sender thread id: " + Thread.currentThread().getId());
 		switch (input_type) {
 		case SHORT_CONSTANT_INPUT: {
 			System.out.println("input thread");
@@ -227,9 +220,13 @@ public class DriverClass {
 	}
 	private void writeDataToFile(Long ts) {
 		try {
+			minuteCounter++;
 			FileWriter fw = new FileWriter(fileName,true);
-			fw.write(ts.toString() + ":"+ eventsSent.toString()+":"+eventsReceived.toString());
+			fw.write(ts.toString() + ":"+minuteCounter.toString()+"m"+":"+ eventsSent.toString()+":"+eventsReceived.toString());
+			fw.write("\n");
 			fw.close();
+			changeEventsReceived(true);
+			eventsSent= 0l;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
