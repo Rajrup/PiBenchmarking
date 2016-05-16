@@ -22,6 +22,7 @@ public class DriverClass {
 	HashMap<Long, Integer> outputHashMap = null;
 	private final Integer one = Integer.valueOf(1);
 	public static String queryType = null;
+	static final int TIME_INTERAVAL = 30*60; // 30 min;
 	private static final int SHORT_CONSTANT_INPUT = 1;
 	private static final int SHORT_VARIED_INPUT = 2;
 	private static final int LONG_CONSTANT_INPUT = 3;
@@ -60,6 +61,7 @@ public class DriverClass {
 			public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
 				if (input_type == SHORT_CONSTANT_INPUT || input_type == SHORT_VARIED_INPUT) {
 					EventPrinter.print(inEvents);
+					System.out.println("\n");
 					return;
 				}
 
@@ -140,7 +142,7 @@ public class DriverClass {
 		case LONG_CONSTANT_INPUT:
 			Long curentTime = System.currentTimeMillis() / 1000;
 			Long key = curentTime;
-			while (curentTime + 30 > key) {
+			while (curentTime + TIME_INTERAVAL > key) {
 				try {
 					Object[] obj = { 10 };
 					inputHandler.send(obj);
@@ -164,7 +166,7 @@ public class DriverClass {
 			key = curentTime;
 			int[] objArr = {3,7,9};
 			int counter = 0;
-			while (curentTime + 30 > key) {
+			while (curentTime + TIME_INTERAVAL > key) {
 				if (counter >= 3) {
 					counter = 0;
 				}
