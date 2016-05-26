@@ -22,7 +22,7 @@ public class DriverClass {
 	HashMap<Long, Integer> outputHashMap = null;
 	private final Integer one = Integer.valueOf(1);
 	public static String queryType = null;
-	static final int TIME_INTERAVAL = 30*60; // 30 min;
+	static final int TIME_INTERAVAL = 1*60; // 30 min;
 	private static final int SHORT_CONSTANT_INPUT = 1;
 	private static final int SHORT_VARIED_INPUT = 2;
 	private static final int LONG_CONSTANT_INPUT = 3;
