@@ -12,6 +12,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+
+import org.wso2.siddhi.core.event.Event;
 
 public class FileAnalysis {
 	
@@ -39,6 +42,23 @@ public class FileAnalysis {
 			e.printStackTrace();
 		}
 		
+	}
+	public void calculateFrequencyFromBuffer(Vector<Object>buffer, String fileTag) {
+		File file = new File(fileTag);
+		if(file.exists() == true) {
+			file.delete();
+		}
+		try {
+			BufferedWriter fileBuffer = new BufferedWriter(new FileWriter(file));
+			
+			for (Object obj:buffer) {
+				fileBuffer.write(obj.toString() + ",");
+			}
+			fileBuffer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public void calculateFrequency(String filePath, String fileTag) {
 		//open the file write the file tag then do your processing 

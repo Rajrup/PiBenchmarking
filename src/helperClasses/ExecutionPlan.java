@@ -11,7 +11,7 @@ public class ExecutionPlan {
 	                "from cseEventStream[height < 300 ] " +
 	                "select height " +
 	                "insert into outputStream ;";
-		} else if (planType.equals("LenAggAvg")) {
+		} else if (planType.equals("agg")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
@@ -83,7 +83,7 @@ public class ExecutionPlan {
                     "insert into outputStream ;";
                     
 		} 
-		else if (planType.equals("seq3")) { // for testing
+		else if (planType.equals("seq")) { // for testing
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
