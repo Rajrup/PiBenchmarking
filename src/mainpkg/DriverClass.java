@@ -95,20 +95,10 @@ public class DriverClass {
 			System.out.println(Thread.currentThread().getId());
 			// Object[] obj1 = {Integer.parseInt("10")};
 			// Object[] obj2 = {Integer.parseInt("5")};
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 20; i++) {
 				Object[] obj1 = { 10 };
 				try {
 					inputHandler.send(obj1);
-					// Thread.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			for (int i = 0; i < 10; i++) {
-				Object[] obj2 = { 10 };
-				try {
-					inputHandler.send(obj2);
 					// Thread.sleep(1);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
