@@ -91,11 +91,9 @@ public class DriverClass {
 
 		switch (input_type) {
 		case SHORT_CONSTANT_INPUT: {
-			System.out.println("input thread");
-			System.out.println(Thread.currentThread().getId());
 			// Object[] obj1 = {Integer.parseInt("10")};
 			// Object[] obj2 = {Integer.parseInt("5")};
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < 50; i++) {
 				Object[] obj1 = { 10 };
 				try {
 					inputHandler.send(obj1);
