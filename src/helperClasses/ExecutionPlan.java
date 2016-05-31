@@ -11,7 +11,7 @@ public class ExecutionPlan {
 	                "from cseEventStream[height < 300 ] " +
 	                "select height " +
 	                "insert into outputStream ;";
-		} else if (planType.equals("agg")) {
+		} else if (planType.equals("agg5")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
@@ -20,20 +20,32 @@ public class ExecutionPlan {
                     "select avg(height) as avgHt " + 
                     "insert into outputStream ;";
 			
-		} else if (planType.equals("LenAggCount")) {
+		}
+		else if (planType.equals("agg400")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
                     "@info(name = 'query1') " +
-                    "from cseEventStream#window.length(5) " + 
-                    "select count(height) as countHeight " + 
+                    "from cseEventStream #window.length(400) " + 
+                    "select avg(height) as avgHt " + 
                     "insert into outputStream ;";
-		} else if (planType.equals("TimeAgg")) {
+			
+		}
+		else if (planType.equals("TimeAgg1")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
                     "@info(name = 'query1') " +
                     "from cseEventStream #window.time(1 sec) " + 
+                    "select count(height) as countHeight " + 
+                    "insert into outputStream ;";
+		}
+		else if (planType.equals("TimeAgg60")) {
+			executionPlan = "" +
+    				"define stream cseEventStream (height int); " +
+                    "" +
+                    "@info(name = 'query1') " +
+                    "from cseEventStream #window.time(60 sec) " + 
                     "select count(height) as countHeight " + 
                     "insert into outputStream ;";
 		} 
