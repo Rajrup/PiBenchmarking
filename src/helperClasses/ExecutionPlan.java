@@ -12,22 +12,42 @@ public class ExecutionPlan {
 	                "select height " +
 	                "insert into outputStream ;";
 		}
-		else if (planType.equals("agglensli5")) {
+		else if (planType.equals("agglensli6")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
                     "@info(name = 'query1') " +
-                    "from cseEventStream #window.length(5) " + 
+                    "from cseEventStream #window.length(6) " + 
                     "select avg(height) as avgHt " + 
                     "insert into outputStream ;";
 			
 		}
-		else if (planType.equals("agglensli500")) {
+		else if (planType.equals("agglensli60")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
                     "@info(name = 'query1') " +
-                    "from cseEventStream #window.length(500) " + 
+                    "from cseEventStream #window.length(60) " + 
+                    "select avg(height) as avgHt " + 
+                    "insert into outputStream ;";
+			
+		}
+		else if (planType.equals("agglensli600")) {
+			executionPlan = "" +
+    				"define stream cseEventStream (height int); " +
+                    "" +
+                    "@info(name = 'query1') " +
+                    "from cseEventStream #window.length(600) " + 
+                    "select avg(height) as avgHt " + 
+                    "insert into outputStream ;";
+			
+		}
+		else if (planType.equals("agglensli6000")) {
+			executionPlan = "" +
+    				"define stream cseEventStream (height int); " +
+                    "" +
+                    "@info(name = 'query1') " +
+                    "from cseEventStream #window.length(6000) " + 
                     "select avg(height) as avgHt " + 
                     "insert into outputStream ;";
 			
