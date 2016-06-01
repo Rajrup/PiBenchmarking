@@ -32,22 +32,42 @@ public class ExecutionPlan {
                     "insert into outputStream ;";
 			
 		}
-		else if (planType.equals("agglenbat5")) {
+		else if (planType.equals("agglenbat6")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
                     "@info(name = 'query1') " +
-                    "from cseEventStream #window.lengthBatch(5) " + 
+                    "from cseEventStream #window.lengthBatch(6) " + 
                     "select avg(height) as AvgtHeight " + 
                     "insert into outputStream ;";
 			
 		}
-		else if (planType.equals("agglenbat500")) {
+		else if (planType.equals("agglenbat60")) {
 			executionPlan = "" +
     				"define stream cseEventStream (height int); " +
                     "" +
                     "@info(name = 'query1') " +
-                    "from cseEventStream #window.lengthBatch(500) " + 
+                    "from cseEventStream #window.lengthBatch(60) " + 
+                    "select avg(height) as AvgtHeight " + 
+                    "insert into outputStream ;";
+			
+		}
+		else if (planType.equals("agglenbat600")) {
+			executionPlan = "" +
+    				"define stream cseEventStream (height int); " +
+                    "" +
+                    "@info(name = 'query1') " +
+                    "from cseEventStream #window.lengthBatch(600) " + 
+                    "select avg(height) as AvgtHeight " + 
+                    "insert into outputStream ;";
+			
+		}
+		else if (planType.equals("agglenbat6000")) {
+			executionPlan = "" +
+    				"define stream cseEventStream (height int); " +
+                    "" +
+                    "@info(name = 'query1') " +
+                    "from cseEventStream #window.lengthBatch(6000) " + 
                     "select avg(height) as AvgtHeight " + 
                     "insert into outputStream ;";
 			

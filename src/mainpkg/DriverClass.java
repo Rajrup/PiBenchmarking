@@ -69,14 +69,9 @@ public class DriverClass {
 			public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
 				if (input_type == SHORT_CONSTANT_INPUT || input_type == SHORT_VARIED_INPUT) {
 					EventPrinter.print(inEvents);
-//					System.out.println("\n");
-//					for (Event eve1 :inEvents) {
-//						System.out.println(eve1.getData(0));
-//					}
-					
 					return;
 				}
-
+//				EventPrinter.print(inEvents);
 				for (Event eve : inEvents) {
 					Long key = Long.valueOf(System.currentTimeMillis() / 1000);
 					Integer tempInt = outputHashMap.get(key);
@@ -128,8 +123,6 @@ public class DriverClass {
 				obj[0] = objArr[counter];
 				counter++;
 				try {
-					System.out.println("sent obj");
-					System.out.println(obj[0]);
 					inputHandler.send(obj);
 //					Thread.sleep(1);
 				} catch (InterruptedException e) {
