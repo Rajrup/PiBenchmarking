@@ -32,6 +32,8 @@ public class DriverClass {
 	private static final int SEQ_INPUT = 5;
 	private static int input_type;
 	private static int timeInterval;
+	SiddhiManager siddhiManager;
+	ExecutionPlanRuntime executionPlanRuntime;
 	public static Logger Log = LoggerFactory.getLogger(DriverClass.class);
 
 	public static void main(String[] args) {
@@ -53,7 +55,7 @@ public class DriverClass {
 
 	}
 	private Boolean initiateExecutionPlan() {
-		SiddhiManager siddhiManager = new SiddhiManager();
+		 siddhiManager = new SiddhiManager();
 		String executionPlan = ExecutionPlan.returnExecutionPlan(queryType);
 		if (executionPlan == null) {
 			Log.info("pls enter a valid execution plan as 2nd cmdline parameter");
@@ -61,7 +63,7 @@ public class DriverClass {
 		}
 
 		// Generating runtime
-		ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(executionPlan);
+		 executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(executionPlan);
 
 		// Adding callback to retrieve output events from query
 		executionPlanRuntime.addCallback("query1", new QueryCallback() {
@@ -236,9 +238,21 @@ public class DriverClass {
 		// "result-"+pathToFile);
 		obj.calculateFrequencyFromBuffer(inputHashMap, "inputResult.csv");
 		obj.calculateFrequencyFromBuffer(outputHashMap, "outputResult.csv");
-//		obj.calculateFrequencyFromBuffer(dataVector, "outputdata.txt");
-		// obj.calculateFrequency(outFile.getAbsolutePath(),
-		// "result-"+pathToFile);
+
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		executionPlanRuntime.shutdown();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		siddhiManager.shutdown();
 		Log.info("experiment over");
 	}
 
